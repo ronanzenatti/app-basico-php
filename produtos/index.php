@@ -44,7 +44,7 @@ $result = $conn->query($sql);
                                 <a href="update_produto.php?id=<?= $row['id_produto'] ?>" class="btn btn-warning btn-sm">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <button class="btn btn-danger btn-sm">
+                                <button class="btn btn-danger btn-sm" onclick="deletar(<?= $row['id_produto'] ?>)">
                                     <i class="bi bi-trash3"></i>
                                 </button>
                             </td>

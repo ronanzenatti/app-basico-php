@@ -30,11 +30,7 @@ $conn->close();
     <div class="col-sm-10">
         <h1 class="text-warning">Cadastrar Produto</h1>
     </div>
-    <div class="col-sm-2 d-flex justify-content-end">
-        <a href="create_produto.php" class="btn btn-warning py-3" type="button">
-            <i class="bi bi-check-lg"></i> Salvar
-        </a>
-    </div>
+
 </div>
 
 <div class="card text-bg-light mb-3">
