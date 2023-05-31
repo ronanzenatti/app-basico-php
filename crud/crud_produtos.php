@@ -55,8 +55,13 @@ function validateFloat($data)
 
 
 if ($operacao == 'CREATE') {
+
+    // Prepare a declaração SQL com os parâmetros marcados como ?
+    $sql = "INSERT INTO produtos (nome, descricao, origem, validade, estoque_atual, estoque_minimo, valor_unitario, ativo)";
+    $sql .= " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+
     // Preparação da consulta SQL
-    $stmt = $conn->prepare("INSERT INTO produtos (nome, descricao, origem, validade, estoque_atual, estoque_minimo, valor_unitario, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+    $stmt = $conn->prepare($sql);
 
     // Atribuição de valores aos parâmetros
     $stmt->bind_param('ssssdddi', $nome, $descricao, $origem, $validade, $estoque_atual, $estoque_minimo, $valor_unitario, $ativo);
@@ -69,9 +74,64 @@ if ($operacao == 'CREATE') {
     // Fecha as conexões para evitar erros.
     $stmt->close();
     $conn->close();
-    header("Location: http://localhost/teste/produtos");
+    header("Location: http://localhost/app-php/produtos");
 } else if ($operacao == 'UPDATE') {
+
+    // Prepare a declaração SQL com os parâmetros marcados como ?
+    $sql = "UPDATE produtos SET";
+    $sql .= " nome = ?,";
+    $sql .= " descricao = ?,";
+    $sql .= " origem = ?,";
+    $sql .= " validade = ?,";
+    $sql .= " estoque_atual = ?,";
+    $sql .= " estoque_minimo = ?,";
+    $sql .= " valor_unitario = ?,";
+    $sql .= " ativo = ?";
+    $sql .= " WHERE id_produto = ?";
+
+    // Prepara a declaração
+    $stmt = $conn->prepare($sql);
+
+    // Vincula os parâmetros aos marcadores de posição (?)
+    $stmt->bind_param('ssssdddii', $nome, $descricao, $origem, $validade, $estoque_atual, $estoque_minimo, $valor_unitario, $ativo, $id_produto);
+
+    // Executa a declaração preparada
+    if ($stmt->execute()) {
+        header("Location: http://localhost/app-php/produtos");
+    } else {
+        echo "Erro ao atualizar o produto: " . $stmt->error;
+    }
+
+    // Fecha a declaração preparada
+    $stmt->close();
+
+    // Fecha a conexão com o banco de dados
+    $conn->close();
+
 } else if ($operacao == 'DELETE') {
+
+    // Prepare a declaração SQL com o parâmetro marcado como ?
+    $sql = "DELETE FROM produtos WHERE id_produto = ?";
+
+    // Prepara a declaração
+    $stmt = $conn->prepare($sql);
+
+    // Vincula o parâmetro ao marcador de posição (?)
+    $stmt->bind_param("i", $id_produto);
+
+    // Executa a declaração preparada
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        return $stmt->error;
+    }
+
+    // Fecha a declaração preparada
+    $stmt->close();
+
+    // Fecha a conexão com o banco de dados
+    $conn->close();
+    
 } else {
     echo 'Não veio nada!';
 }

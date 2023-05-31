@@ -56,7 +56,7 @@ require '../template/header.php';
             </div>
 
             <div class=" d-flex justify-content-between">
-                <a href="http://localhost/teste/produtos" class="btn btn-outline-dark">
+                <a href="http://localhost/app-php/produtos" class="btn btn-outline-dark">
                     <i class="bi bi-arrow-90deg-left"></i>
                     Voltar
                 </a>
